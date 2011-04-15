@@ -11,13 +11,15 @@ var Cheater = function () {
     this.client = CheaterClient.create();
 
     this.on('start', function() {
-        this.currentStatus = CheaterConstant.statusMap.started.val;
+        this.currentStatus = CheaterConstant.statusMap.started;
     });
 
     this.on('stop', function () {
-        this.currentStatus = CheaterConstant.statusMap.stopped.val;
+        this.currentStatus = CheaterConstant.statusMap.stopped;
     });
 };
+
+sys.inherits(Cheater, events.EventEmitter);
 
 Cheater.prototype.canStart = function () {
     return this.currentStatus.val == CheaterConstant.statusMap.initializing.val ||
@@ -35,22 +37,21 @@ Cheater.prototype.getStatusDesc = function () {
 
 Cheater.prototype.start = function () {
     if (this.canStart()) {
-        this.currentStatus = CheaterConstant.statusMap.starting.val;
+        this.currentStatus = CheaterConstant.statusMap.starting;
         SocketSpc.check(this);
+        var that = this;
         setTimeout(function() {
-            this.emit('start');
+            that.emit('start');
         }, 2000);
     }
 };
 
 Cheater.prototype.stop = function () {
     if (this.canStop()) {
-        this.currentStatus = CheaterConstant.statusMap.stopping.val;
+        this.currentStatus = CheaterConstant.statusMap.stopping;
         this.emit('stop');
     }
 };
-
-sys.inherits(Cheater, events.EventEmitter);
 
 exports.create = function () {
     return new Cheater();
