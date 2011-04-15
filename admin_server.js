@@ -10,17 +10,17 @@ var AdminServer = function (port, cheater) {
         client.write('> ');
         client.on('data', function (data) {
             switch (data.trim()) {
-                case 'status':
-                  client.write(cheater.getStatusDesc() + NEW_LINE);
-                  break;
-                case 'quit':
-                  client.end();
-                  break;
-                case 'shutdown':
-                  client.end();
-                  this.server.close();
-                  this.cheater.stop();
-                  break;
+            case 'status':
+                client.write(cheater.getStatusDesc() + NEW_LINE);
+                break;
+            case 'quit':
+                client.end();
+                break;
+            case 'shutdown':
+                client.end();
+                this.server.close();
+                this.cheater.stop();
+                break;
             }
         });
     });
