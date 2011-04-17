@@ -1,7 +1,5 @@
-var CheaterConfig = require('./cheater_config.js');
-var AdminServer = require('./admin_server.js');
-
 exports.check = function (cheater) {
-    var adminServer = AdminServer.create(CheaterConfig.socketSpcPort, cheater);
-    adminServer.start();
+    var adminServer = require('./admin_server.js');
+    var CheaterConfig = require('./cheater_config.js');
+    new adminServer.AdminServer(CheaterConfig.socketSpcPort, cheater).start();
 };

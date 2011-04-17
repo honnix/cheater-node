@@ -1,4 +1,4 @@
-var statusMap = {
+exports.statusMap = {
     initializing: {val: 1, desc: 'initializing'},
     starting: {val: 2, desc: 'starting'},
     started: {val: 3, desc: 'started'},
@@ -15,5 +15,3 @@ var statusMap = {
     stopping: {val: 14, desc: 'stopping'},
     stopped: {val: 15, desc: 'stopped'}
 };
-
-exports.statusMap = statusMap;

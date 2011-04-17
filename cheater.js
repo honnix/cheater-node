@@ -1,14 +1,11 @@
-var sys = require('sys');
 var events = require('events');
 
 var CheaterConstant = require('./cheater_constant.js');
-var CheaterClient = require('./cheater_client.js');
-var SocketSpc = require('./socket_spc.js');
 
 var Cheater = function () {
     events.EventEmitter.call(this);
     this.currentStatus = CheaterConstant.statusMap.initializing;
-    this.client = CheaterClient.create();
+    this.client = require('./cheater_client.js').CheaterClient();
 
     this.on('start', function() {
         this.currentStatus = CheaterConstant.statusMap.started;
@@ -19,11 +16,12 @@ var Cheater = function () {
     });
 };
 
+var sys = require('sys');
 sys.inherits(Cheater, events.EventEmitter);
 
 Cheater.prototype.canStart = function () {
-    return this.currentStatus.val == CheaterConstant.statusMap.initializing.val ||
-        this.currentStatus.val == CheaterConstant.statusMap.stopped.val;
+    return this.currentStatus.val === CheaterConstant.statusMap.initializing.val ||
+        this.currentStatus.val === CheaterConstant.statusMap.stopped.val;
 };
 
 Cheater.prototype.canStop = function () {
@@ -38,7 +36,7 @@ Cheater.prototype.getStatusDesc = function () {
 Cheater.prototype.start = function () {
     if (this.canStart()) {
         this.currentStatus = CheaterConstant.statusMap.starting;
-        SocketSpc.check(this);
+        require('./socket_spc.js').check(this);
         var that = this;
         setTimeout(function() {
             that.emit('start');
@@ -53,6 +51,4 @@ Cheater.prototype.stop = function () {
     }
 };
 
-exports.create = function () {
-    return new Cheater();
-};
+exports.Cheater = Cheater;
