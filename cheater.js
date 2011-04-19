@@ -55,7 +55,11 @@ var Cheater = function () {
                             console.warn('Heartbeat failed continuously for ' +
                                          CheaterConfig.heartbeatMaxFailTimes + 
                                          ' times. Try to login again.');
+
+                            logout();
                         }
+                    } else {
+                        logout();
                     }
                 };
 
